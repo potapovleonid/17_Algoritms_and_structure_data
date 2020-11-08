@@ -1,7 +1,9 @@
 package geekbrains.home.des;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class TwoSideLinkedListImpl<E> extends LinkedListImpl<E> implements TwoSideLinkedList<E> {
+public class TwoSideLinkedListImpl<E> extends LinkedListImpl<E> implements TwoSideLinkedList<E>, Iterable<E> {
 
     private Node<E> lastElement;
 
@@ -64,6 +66,52 @@ public class TwoSideLinkedListImpl<E> extends LinkedListImpl<E> implements TwoSi
 
     @Override
     public void insertLast(E value) {
+        Node<E> entry = new Node<>(value, null);
+        if (isEmpty()){
+            firstElement = entry;
+        } else {
+            lastElement.next = entry;
+        }
 
+        lastElement = entry;
+        size++;
+    }
+
+
+    @Override
+    public Iterator<E> iterator() {
+        return new SimpleIterator();
+    }
+
+    private class SimpleIterator implements Iterator<E>{
+
+        private int cursor;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != size;
+        }
+
+        @Override
+        public E next() {
+            int newCursor = cursor;
+            if (newCursor >= size){
+                throw new NoSuchElementException("My Two Side Linked List " +
+                        "caused an error when the cursor was out of the array");
+            }
+
+            if (cursor == 0){
+                return firstElement.item;
+            }
+
+            Node<E> returnItem = firstElement;
+
+            for (int i = 0; i < newCursor; i++) {
+                returnItem = returnItem.next;
+            }
+
+            return returnItem.item;
+
+        }
     }
 }

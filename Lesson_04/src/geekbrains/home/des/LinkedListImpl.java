@@ -7,7 +7,8 @@ public class LinkedListImpl<E> implements LinkedList<E> {
 
     @Override
     public void insertFirst(E value) {
-
+        Node<E> newFirst = new Node<E>(value, firstElement);
+        firstElement = newFirst;
     }
 
     @Override
