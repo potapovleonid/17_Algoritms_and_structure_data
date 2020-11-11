@@ -16,4 +16,12 @@ public class Entity {
     public int getCost() {
         return cost;
     }
+
+    @Override
+    public String toString() {
+        return "E{" +
+                "w=" + weigth +
+                ", c=" + cost +
+                '}';
+    }
 }

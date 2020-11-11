@@ -17,11 +17,13 @@ public class Backpack {
     public void addEntityInBackpack(Entity entity){
         totalCoast += entity.getCost();
         freeCapacity -= entity.getWeigth();
+        entities.add(entity);
     }
 
     public void clearContent(){
         entities.clear();
         totalCoast = 0;
+        freeCapacity = capacity;
     }
 
     public int getCapacity() {
