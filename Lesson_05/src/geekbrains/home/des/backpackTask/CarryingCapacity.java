@@ -1,38 +1,51 @@
 package geekbrains.home.des.backpackTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
 
 public class CarryingCapacity {
 
     private Entity[] entities;
-    private Entity[] tmpEntities;
-    private int tmpCapacity;
+    private int tmpCoast;
     private int valueEntyties;
     private Backpack backpack;
 
-    private Entity[] topCapacity;
+    private ArrayList<Entity> topCapacity;
 
     public CarryingCapacity(Entity[] entities, Backpack backpack) {
         this.entities = entities;
         this.backpack = backpack;
         valueEntyties = entities.length;
-        this.topCapacity = new Entity[valueEntyties];
+        this.topCapacity = new ArrayList<>();
     }
 
-    public Entity[] getTopCapacity() {
-        topCapacity = new Entity[valueEntyties];
+    public ArrayList<Entity> getTopCapacity() {
+        backpack.clearContent();
         findCapacity(valueEntyties);
         return topCapacity;
     }
 
     private void findCapacity(int valueEntyties) {
         if (valueEntyties == 1 && entities[0].getWeigth() <= backpack.getCapacity()) {
-            topCapacity[0] = entities[0];
+            topCapacity.add(entities[0]);
         }
-//складирование и поск выгодного
         for (int i = 0; i < valueEntyties; i++) {
             findCapacity(valueEntyties - 1);
+            for (int j = 0; j < valueEntyties; j++) {
+                if (entities[j].getWeigth() <= backpack.getFreeCapacity()){
+                    backpack.addEntityInBackpack(entities[j]);
+                }
+            }
+
+            if (tmpCoast < backpack.getTotalCoast()){
+                tmpCoast = backpack.getTotalCoast();
+                topCapacity = (ArrayList<Entity>) backpack.getEntities().clone();
+            }
+
+            backpack.clearContent();
+
             swap(valueEntyties);
         }
     }
