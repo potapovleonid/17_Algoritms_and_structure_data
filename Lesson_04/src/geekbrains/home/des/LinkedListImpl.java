@@ -5,6 +5,7 @@ public class LinkedListImpl<E> implements LinkedList<E> {
     protected int size;
     protected Node<E> firstElement;
 
+
     @Override
     public void insertFirst(E value) {
         Node<E> newFirst = new Node<E>(value, firstElement);
@@ -30,6 +31,7 @@ public class LinkedListImpl<E> implements LinkedList<E> {
 
     @Override
     public boolean remove(E value) {
+
         if (isEmpty()) {
             return false;
         }
