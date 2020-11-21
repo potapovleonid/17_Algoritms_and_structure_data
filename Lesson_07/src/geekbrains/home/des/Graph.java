@@ -96,7 +96,9 @@ public class Graph {
 
         visitVertex(vertex, queue);
         while (!queue.isEmpty()) {
+
             vertex = getNearUnvisitedVertex(queue.peek());
+
             if (vertex != null) {
                 visitVertex(vertex, queue);
             }
@@ -123,6 +125,17 @@ public class Graph {
         }
         return null;
     }
+    private Vertex getNearUnvisitedVertexForFind(Vertex peek) {
+        int peekIndex = list.indexOf(peek);
+        for (int i = 0; i < getVertexSize(); i++) {
+            if (adjMat[peekIndex][i] && !list.get(i).isVisited()) {
+                System.out.println("vertex input " + peek.getLabel());
+                System.out.println(list.get(i).getLabel());
+                return list.get(i);
+            }
+        }
+        return null;
+    }
 
     private void visitVertex(Vertex vertex, Stack<Vertex> stack) {
         System.out.println(vertex);
@@ -133,5 +146,48 @@ public class Graph {
         System.out.println(vertex);
         queue.add(vertex);
         vertex.setVisited(true);
+    }
+
+    public Stack<String> findShortDestination(String startPoint, String endPoint){
+        int startIndex = indexOf(startPoint);
+        int finishIndex = indexOf(endPoint);
+        if (startIndex == -1) {
+            throw new IllegalArgumentException("Invalid startPoint: " + startPoint);
+        }
+        if (finishIndex == -1) {
+            throw new IllegalArgumentException("Invalid endPoint: " + endPoint);
+        }
+
+        Queue<Vertex> queue = new ArrayDeque<>();
+
+        Vertex vertex = list.get(startIndex);
+        visitVertex(vertex, queue);
+
+        while (!queue.isEmpty()) {
+            vertex = getNearUnvisitedVertex(queue.peek());
+            if (vertex == null) {
+                queue.remove();
+            } else {
+                visitVertex(vertex, queue);
+                vertex.setPreviousVertex(queue.peek());
+                if (vertex.getLabel().equals(endPoint)) {
+                    return buildPath(vertex);
+                }
+            }
+        }
+
+        resetVertexState();
+        return null;
+    }
+
+    private Stack<String> buildPath(Vertex vertex) {
+        Stack<String> stack = new Stack<>();
+        Vertex current = vertex;
+        while (current != null) {
+            stack.push(current.getLabel());
+            current = current.getPreviousVertex();
+        }
+
+        return stack;
     }
 }

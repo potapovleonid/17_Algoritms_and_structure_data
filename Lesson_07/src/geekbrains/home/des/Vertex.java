@@ -7,6 +7,8 @@ public class Vertex {
     private final String label;
     private boolean visited;
 
+    private Vertex previousVertex;
+
     public Vertex(String label) {
         this.label = label;
     }
@@ -41,5 +43,13 @@ public class Vertex {
     @Override
     public int hashCode() {
         return Objects.hash(label, visited);
+    }
+
+    public Vertex getPreviousVertex() {
+        return previousVertex;
+    }
+
+    public void setPreviousVertex(Vertex previousVertex) {
+        this.previousVertex = previousVertex;
     }
 }
