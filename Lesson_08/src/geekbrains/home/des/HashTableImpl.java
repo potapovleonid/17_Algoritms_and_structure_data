@@ -4,39 +4,6 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
 
     private final int maxSize;
 
-    static class Node<K, V> implements Entry<K, V>{
-        private final K key;
-        private V value;
-
-        public Node(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public K getKey() {
-            return key;
-        }
-
-        @Override
-        public V getValue() {
-            return value;
-        }
-
-        @Override
-        public void setValue(V value) {
-            this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "key=" + key +
-                    ", value=" + value +
-                    '}';
-        }
-    }
-
     private final Node<K, V>[] data;
     private int size;
 
@@ -55,7 +22,7 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
         }
 
         while (data[index] != null){
-            if (data[index].key.equals(key)){
+            if (data[index].getValue().equals(key)){
                 data[index].setValue(value);
                 return true;
             }
